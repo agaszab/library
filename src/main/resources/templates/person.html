@@ -23,21 +23,24 @@
 
 <div  class="container">
 
-    <h1>Lista wszystkich książek</h1>
+    <div  class="text-justify" >
 
-    <ul class="list-group">
-        <li class="list-group-item" th:each="book: ${books}">
-            <a style="display: inline; float: left" th:href="'/book?idb='+${book.idb}"   th:text="${book.author} +' - ' + ${book.title} +' ('+${book.category}+')'"></a>
-        </li>
-        <li class="list-group-item">
-            <a  style="display: inline; float: left" th:href="'/addbook'"> <img src="../plus.png" width="20px"/>  Dodaj nową książkę</a>
+        <h1 th:text="${person.firstName}+' '+${person.lastName}"></h1>
+        </br>
+        <h3 th:if="${bookHead}" th:text="${bookHead}"></h3>
 
-        </li>
+    <ul th:each="book: ${books}" class="list-group">
+        <li class="list-group-item" ><a th:href="'/book?idb='+${book.idb}"  th:text="${book.author}+' '+${book.title}"/></a>
+        <a th:if="${hist}" th:href="'/returnbooks?idb='+${book.idb}" th:text="'Oddaj książkę'"></a></li>
     </ul>
+        <a  th:if="${hist}" th:href="'/person?idp='+${person.idp}+'&&hist=false'" th:text="'historia pożyczonych książek'"></a>
+        </br></br>
+        <a href="javascript:history.back()"><< powrót do poprzedniej strony</a>
+    </div>
+
+
 
 </div>
-
-
 
 </body>
 </html>

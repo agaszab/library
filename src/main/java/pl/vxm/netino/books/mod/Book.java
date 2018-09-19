@@ -14,25 +14,28 @@ public class Book {
 
  private String title;
  private String author;
- private String type;
+ private String category;
  private String publisher;
- private int year;
+ private int publicationYear;
 
  public Book() {
  }
 
- public Book(String title, String author, String type, String publisher, int year) {
+ public Book(String title, String author, String category, String publisher, int publicationYear) {
   this.title = title;
   this.author = author;
-  this.type = type;
+  this.category = category;
   this.publisher = publisher;
-  this.year = year;
+  this.publicationYear = publicationYear;
  }
 
- public Long getId() {
+ public Long getIdb() {
   return idb;
  }
 
+ public void setIdb(Long idb) {
+  this.idb = idb;
+ }
 
  public String getTitle() {
   return title;
@@ -50,20 +53,28 @@ public class Book {
   this.author = author;
  }
 
- public String getType() {
-  return type;
+ public String getCategory() {
+  return category;
  }
 
- public void setType(String type) {
-  this.type = type;
+ public void setCategory(String category) {
+  this.category = category;
  }
 
- public int getYear() {
-  return year;
+ public String getPublisher() {
+  return publisher;
  }
 
- public void setYear(int year) {
-  this.year = year;
+ public void setPublisher(String publisher) {
+  this.publisher = publisher;
+ }
+
+ public int getPublicationYear() {
+  return publicationYear;
+ }
+
+ public void setPublicationYear(int publicationYear) {
+  this.publicationYear = publicationYear;
  }
 
  @Override
@@ -72,9 +83,9 @@ public class Book {
           "idb=" + idb +
           ", title='" + title + '\'' +
           ", author='" + author + '\'' +
-          ", type='" + type + '\'' +
-          ", year=" + year +
+          ", category='" + category + '\'' +
+          ", publisher='" + publisher + '\'' +
+          ", publicationYear=" + publicationYear +
           '}';
  }
-
 }

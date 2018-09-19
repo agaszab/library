@@ -22,22 +22,22 @@
 
 
 <div  class="container">
+    <div  class="text-justify" ><h1>Dodaj nową osobę</h1>
 
-    <h1>Lista wszystkich książek</h1>
+        <form action="/addp" method="post" th:object="${newPerson}">
+            <input th:name="idp" th:value="${idp}" type="hidden"/>
+            <div class="form-group">
+                <label>Imię</label>
+                <input th:field="*{firstName}" type="text" class="form-control" placeholder="imię"/>
+            </div>
+            <div class="form-group">
+                <label>Nazwisko</label>
+                <input th:field="*{lastName}" type="text" class="form-control"  placeholder="nazwisko"/>
+            </div>
 
-    <ul class="list-group">
-        <li class="list-group-item" th:each="book: ${books}">
-            <a style="display: inline; float: left" th:href="'/book?idb='+${book.idb}"   th:text="${book.author} +' - ' + ${book.title} +' ('+${book.category}+')'"></a>
-        </li>
-        <li class="list-group-item">
-            <a  style="display: inline; float: left" th:href="'/addbook'"> <img src="../plus.png" width="20px"/>  Dodaj nową książkę</a>
-
-        </li>
-    </ul>
-
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </form>
+    </div>
 </div>
-
-
-
 </body>
 </html>

@@ -12,12 +12,12 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idp;
 
-    private String name;
-    private String surname;
+    private String firstName;
+    private String lastName;
 
-    public Person(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Person() {
@@ -27,22 +27,32 @@ public class Person {
         return idp;
     }
 
-
-    public String getName() {
-        return name;
+    public void setIdp(Long idp) {
+        this.idp = idp;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String getLastName() {
+        return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "idp=" + idp +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Library</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <style th:include="menu::styl"></style>
+</head>
+
+<body>
+<ul th:include="menu :: menu" class="navbar navbar-default"></ul>
+
+
+    <div  class="container">
+
+        <div  class="text-justify" >
+
+            <h1 th:text="'Autor:'+ ${book.author}+', tytuł: '+${book.title}"></h1>
+
+            <p th:text="'Gatunek: '+${book.category}"</p>
+            <p th:text="'Wydawnictwo: '+${book.publisher}"</p>
+            <p th:text="'Rok wydania: '+${book.publicationYear}"></p>
+
+            </br></br>
+
+            <!-- wypożyczenie -->
+            <div th:unless="${pom}">
+            <form action="/addborrowed"  method="post" class="form-group" th:object="${newBorrowed}">
+                <input th:value="${book.idb}" name="idb" type="hidden"/>
+
+                <select th:field="${persons}" th:name="idp" class="col-sm-3" th:object="${person}">
+                  <!--  <option value="-1"></option> -->
+                    <option  th:each="person: ${persons}" th:value="${person.idp}" th:text="${person.firstName}+' '+${person.lastName}+' '+${person.idp}" ></option>
+                </select>
+                
+                <button type="submit" class="btn-sm btn-light">Wypożycz książkę</button>
+            </form>
+        </div>
+
+            <!-- zwrot -->
+
+            <div th:if="${pom}" th:object="${borrowed}">
+                <p th:text="'Obecnie pozycja wypożyczona przez: '+${person.firstName}+'  '+${person.lastName}+''"</p>
+                <p><a th:href="'/returnbook?id='+${borrowed.id}" th:text="'<< zwrot >>'"></a></p>
+
+            </div>
+            </br></br>
+            <a href="javascript:history.back()"><< powrót do poprzedniej strony</a>
+        </div>
+
+
+
+</div>
+
+</body>
+</html>

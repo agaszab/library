@@ -5,7 +5,8 @@ import pl.vxm.netino.books.mod.Book;
 
 import java.util.List;
 
-public interface BookRepository <Book, Long> {
+public interface BookRepository extends JpaRepository <Book, Long> {
 
-    public List<Book> findAll();
+  //  Book findById(long idb);
+
 }
