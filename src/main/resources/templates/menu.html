@@ -1,78 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<div>
-<style  th:fragment="styl">
-    body {
-        background-color: #FFFDD7;
-        align-content: center;
-        background-image: url("dom.png");
-        background-repeat: no-repeat;
-        background-position: right bottom;
-        min-height: 700px;
-    }
+<!-- MENU górne -->
 
-    h1{margin-top: 30px;}
-    h2{margin-top: 20px;}
+<span th:fragment="gora">
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand" href="/">Biblioteczka</a></div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/books">Wykaz książek</a></li>
+                <li><a href="/people">Ludzie</a></li>
+                <li><a href="#">Opcja menu</a></li>
+            </ul>
 
-    .container ul {
-        background-color: #FFF;
-        width: 600px;
+ <div>
+     </div>
 
-    }
-    .container ul li a {
-        background-color: #FFF;
-        color: #333;
-        text-align: left;
-        height: 25px;
-    }
-
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333;
-        text-align: left;
-    }
-
-    li {
-        float: left;
-        padding-right: 10px;
-    }
-
-    li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-
-    li a:hover {
-        background-color: #111;
-        text-underline: lavender;
-        color: wheat;
-
-    }
-
-    input {
-        width: 400px;}
-</style>
+ </nav>
+</span>
 
 
-<div>
-<ul th:fragment="menu">
-    <li><a class="active" href="/"><img src="home.png" width="20px" style="display: inline; float: left; margin-right: 9px">BIBLIOTECZKA</a></li>
-    <li><a href="/books">Lista wszystkich książek</a></li>
-    <li><a href="/persons">Osoby pożyczające</a></li>
-</ul></div>
 
 
-</body>
-</html>
+ <!-- WYSZUKIWANIE -->
+
+<span th:fragment="search">
+<div >
+             <div class="well">
+                 <h4 class="margin-t-0">Szukaj książki po tytule:</h4>
+                 <form action="#">
+                     <div class="input-group">
+                         <label class="sr-only" for="search-form">Search the site</label>
+                         <input type="text" class="form-control" id="search-form">
+                         <span class="input-group-btn">
+ 									<button class="btn btn-default" type="button">
+ 										<span class="glyphicon glyphicon-search"></span>
+ 										<span class="sr-only">Search</span>
+ 									</button>
+ 								</span>
+                     </div>
+                 </form>
+                 <br>
+                  <h4 class="margin-t-0">Szukaj książki po autorze:</h4>
+                                  <form action="#">
+                                      <div class="input-group">
+                                          <label class="sr-only" for="search-form">Search the site</label>
+                                          <input type="text" class="form-control" id="search-form">
+                                          <span class="input-group-btn">
+                  									<button class="btn btn-default" type="button">
+                  										<span class="glyphicon glyphicon-search"></span>
+                  										<span class="sr-only">Search</span>
+                  									</button>
+                  								</span>
+                                      </div>
+                                  </form>
+             </div>
+
+</div>
+</span>
+
+ <!-- WYSZUKIWANIE OSÓB -->
+
+<span th:fragment="searchPeople">
+<div >
+             <div class="well">
+                 <h4 class="margin-t-0">Wyszukaj osobę po nazwisku:</h4>
+                 <form action="#">
+                     <div class="input-group">
+                         <label class="sr-only" for="search-form">Search the site</label>
+                         <input type="text" class="form-control" id="search-form">
+                         <span class="input-group-btn">
+ 									<button class="btn btn-default" type="button">
+ 										<span class="glyphicon glyphicon-search"></span>
+ 										<span class="sr-only">Search</span>
+ 									</button>
+ 								</span>
+                     </div>
+                 </form>
+
+             </div>
+
+</div>
+</span>
+
+
+ <!-- KATEGORIE -->
+
+<span th:fragment="category">
+<div class="list-group margin-b-3" >
+                <a href="#" class="active list-group-item">Pokaż książki z kategorii:</a>
+                <span th:each="cat:${categories}">
+                <a href="#" class="list-group-item"  th:text="${cat}"></a>
+                </span>
+            </div>
+</span>
+
+
+
+
+
+
+
+ <!-- PANEL z tekstem -->
+
+<span th:fragment="panel">
+ <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Sidebar panel widget</h4>
+                </div>
+                <div class="panel-body">
+                    <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                </div>
+            </div>
+
+</span>
+
+ <!-- FOOTER -->
+
+<span th:fragment="footer">
+<footer class="margin-tb-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Netino 2018</p>
+            </div>
+        </div>
+    </footer>
+    </span>

@@ -28,7 +28,14 @@
 <body>
 
 <!-- Navigation -->
+<!-- Navigation -->
 <span th:include="menu :: gora"></span>
+
+
+
+
+
+
 
 
 <!-- Page Content -->
@@ -47,33 +54,49 @@
 
             <!-- Image -->
             <figure class="margin-b-2">
-                <img class="img-responsive" src="/img/books4s.jpg" alt="">
+                <img class="img-responsive" src="/img/books1s.jpg" alt="">
                 <figcaption class="margin-t-h"></figcaption>
             </figure>
             <hr>
 
             <!--  książki -->
-            <a  style="display: inline; float: right" th:href="'/addbook'"> <img src="/img/plus.png" width="20px"/>  Dodaj nową książkę</a>
-            <h3>Lista wszystkich książek</h3>
 
-            <div class="well"  th:each="book: ${books}">
-                <div class="media">
-                    <div class="media-left">
-                        <img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt="">
+            <h3>Edycja danych książki</h3>
+
+            <div class="well">
+                <form action="/editb" method="post" th:object="${book}">
+                    <input th:name="idb" th:value="*{idb}" type="hidden"/>
+                    <div class="form-group">
+                        <label for="author">Autor</label>
+                        <input th:field="*{author}"  type="text" class="form-control" id="author" placeholder="Wpisz autora">
                     </div>
-                    <div class="media-body">
-                        <h4 class="margin-t-0"><a th:href="'/book?idb='+${book.idb}"   th:text="${book.author} +' - ' + ${book.title}"></a></h4>
-                        <p style="color: #f19f1f;" th:text="'Kategoria: '+${book.category}"></p>
-                        <p class="text-secondary" th:text="'Wydawnictwo: '+${book.publisher}"></p>
-                        <p class="text-secondary" th:text="'Rok wydania: '+${book.publicationYear}"></p>
-                        <p style="display: inline; float: right"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-circle-arrow-right"></span> Szczegóły </button></a></p>
-                        <p th:text="${book.description}"></p>
-                        <p style="display: inline; float: right"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span> Edycja danych</button></a></p>
+                    <div class="form-group">
+                        <label for="title">Tytuł </label>
+                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder="Wpisz tytuł">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="publisher">Wydawnictwo </label>
+                        <input th:field="*{publisher}" type="text" class="form-control" id="publisher" placeholder="Wydawnictwo">
+                    </div>
+                    <div class="form-group">
+                        <label for="rokpublikacji">Rok publikacji </label>
+                        <input  th:field="*{publicationYear}" type="text" class="form-control" id="rokpublikacji" placeholder="Wpisz rok publikacji">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Gatunek</label>
+                        <input  th:field="*{category}" type="text" class="form-control" id="category" placeholder="Gatunek">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Krótki opis</label>
+                        <textarea  th:field="*{description}" class="form-control" id="description"></textarea>
+                    </div>
+                    <p style="text-align: right"><button class="btn btn-sm btn-default" type="submit">
+                        <span class="glyphicon glyphicon-saved"></span> Zapisz </button></p>
+
+                </form>
             </div>
+
 
 
             <hr>

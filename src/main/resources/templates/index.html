@@ -1,24 +1,117 @@
 <!DOCTYPE html>
+<html lang="pl">
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Library</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <style th:include="menu::styl"></style>
+    <title>Biblioteka</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" lang="pl" content="Strona do zarządzania biblioteczką">
+    <meta name="author" content="Agnieszka Szabała">
+    <meta name="robots" content="index, follow">
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Bootstrap Core CSS file -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Override CSS file - add your own CSS rules -->
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Conditional comment containing JS files for IE6 - 8 -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
 </head>
-
 <body>
-<ul th:include="menu :: menu" class="navbar navbar-default"></ul>
 
+
+<!-- Navigation -->
+<span th:include="menu :: gora"></span>
+
+
+<!-- Page Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header"><h1>Biblioteczka  - zapisz wypożyczenia swoich książek</h1></div>
+        </div>
+    </div>
+
+
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-sm-8">
+
+            <!-- Image -->
+            <figure class="margin-b-2">
+                <img class="img-responsive" src="/img/books1.jpg" alt="">
+                <figcaption class="margin-t-h"></figcaption>
+            </figure>
+
+            <p class="lead">Witamy na stronie do zarządziania prywatną biblioteczką.</p>
+            <p>Możesz dodawać nowe osoby, nowe książki oraz rejestrować wypożyczenia i zwroty jak również oglądać statystyki najchętniej wypożyczanych książek.</p>
+
+            <hr>
+
+            <!-- nowe książki -->
+            <h3>Ostatnio dodane książki</h3>
+            <div class="well"  th:each="book: ${topTwoBookList}">
+                <div class="media">
+                    <div class="media-left">
+                        <img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt="">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="margin-t-0"><a th:href="'/book?idb='+${book.idb}"   th:text="${book.author} +' - ' + ${book.title}"></a></h4>
+                        <p style="color: #f19f1f;" th:text="${book.category}"></p>
+                        <p class="text-secondary" th:text="'Wydawnictwo: '+${book.publisher}"></p>
+                        <p class="text-secondary" th:text="'Rok wydania: '+${book.publicationYear}"></p>
+                        <p style="display: inline; float: right"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-circle-arrow-right"></span> Szczegóły </button></a></p>
+                        <p th:text="${book.description}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+        </div>
+
+
+
+        <div class="col-sm-4">
+            <!-- Search -->
+            <span th:include="menu :: search" ></span>
+
+
+            <!-- list group -->
+            <span th:include="menu :: category" ></span>
+
+
+            <!-- Panel -->
+            <span th:include="menu :: panel" ></span>
+
+            <span th:include="menu :: panel" ></span>
+
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+    <hr>
+    <span th:include="menu :: footer" ></span>
+</div>
+<!-- /.container-fluid -->
+
+<!-- JQuery scripts -->
+<script src="/js/jquery-1.11.2.min.js"></script>
+
+<!-- Bootstrap Core scripts -->
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

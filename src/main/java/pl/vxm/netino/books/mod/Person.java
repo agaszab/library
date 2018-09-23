@@ -14,13 +14,23 @@ public class Person {
 
     private String firstName;
     private String lastName;
+    private int phone;
 
-    public Person(String firstName, String lastName) {
+    public Person(String firstName, String lastName, int phone) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
     }
 
     public Person() {
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
     }
 
     public Long getIdp() {

@@ -1,66 +1,140 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Library</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
-    <style th:include="menu::styl"></style>
+    <title>Biblioteka</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" lang="pl" content="Strona do zarządzania biblioteczką">
+    <meta name="author" content="Agnieszka Szabała">
+    <meta name="robots" content="index, follow">
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Bootstrap Core CSS file -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Override CSS file - add your own CSS rules -->
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Conditional comment containing JS files for IE6 - 8 -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
 </head>
-
 <body>
-<ul th:include="menu :: menu" class="navbar navbar-default"></ul>
+
+<!-- Navigation -->
+<!-- Navigation -->
+<span th:include="menu :: gora"></span>
 
 
-    <div  class="container">
+<!-- Page Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header"><h1>Biblioteczka  - zapisz wypożyczenia swoich książek</h1></div>
+        </div>
+    </div>
 
-        <div  class="text-justify" >
 
-            <h1 th:text="'Autor:'+ ${book.author}+', tytuł: '+${book.title}"></h1>
+    <!-- /.row -->
 
-            <p th:text="'Gatunek: '+${book.category}"</p>
-            <p th:text="'Wydawnictwo: '+${book.publisher}"</p>
-            <p th:text="'Rok wydania: '+${book.publicationYear}"></p>
+    <div class="row">
+        <div class="col-sm-8">
 
-            </br></br>
+            <!-- Image -->
+            <figure class="margin-b-2">
+                <img class="img-responsive" src="/img/books1s.jpg" alt="">
+                <figcaption class="margin-t-h"></figcaption>
+            </figure>
+            <hr>
+
+            <!--  książki -->
+            <h3 th:text="'Autor:'+${book.author}"></h3>
+            <h3 th:text="'Tytuł: '+${book.title}"></h3>
+
+
+
+            <div class="well" >
+
+                <div class="media">
+                    <div class="media-body">
+                        <span style="display: inline; float: left; margin-right:10px;"><img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt=""></span>
+                        <p style="color: #f19f1f;" th:text="'Kategoria: '+${book.category}"></p>
+                        <p th:text="'Wydawnictwo: '+${book.publisher}"></p>
+                        <p th:text="'Rok wydania: '+${book.publicationYear}"></p>
+                        <p th:text="${book.description}"></p>
+
+
+
+                        <!-- zwrot -->
+
+                        <div th:if="${pom}" th:object="${borrowed}">
+                            <a style="color:#228B22;" th:href="'/person?idp='+${person.idp}+'&&hist=true'" th:text="'Książka wypożyczona przez: '+${person.firstName}+'  '+${person.lastName}+''"</a>
+                            <p style="display: inline; float: right"><a th:href="'/returnbook?id='+${borrowed.id}"><button class="btn btn-sm btn-default">
+                                <span class="glyphicon glyphicon-circle-arrow-right"></span> Zwrot książki </button></a></p>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
 
             <!-- wypożyczenie -->
             <div th:unless="${pom}">
-            <form action="/addborrowed"  method="post" class="form-group" th:object="${newBorrowed}">
-                <input th:value="${book.idb}" name="idb" type="hidden"/>
-
-                <select th:field="${persons}" th:name="idp" class="col-sm-3" th:object="${person}">
-                  <!--  <option value="-1"></option> -->
-                    <option  th:each="person: ${persons}" th:value="${person.idp}" th:text="${person.firstName}+' '+${person.lastName}+' '+${person.idp}" ></option>
-                </select>
-                
-                <button type="submit" class="btn-sm btn-light">Wypożycz książkę</button>
-            </form>
-        </div>
-
-            <!-- zwrot -->
-
-            <div th:if="${pom}" th:object="${borrowed}">
-                <p th:text="'Obecnie pozycja wypożyczona przez: '+${person.firstName}+'  '+${person.lastName}+''"</p>
-                <p><a th:href="'/returnbook?id='+${borrowed.id}" th:text="'<< zwrot >>'"></a></p>
-
+                <form action="/addborrowed"  method="post" class="form-group" th:object="${newBorrowed}">
+                    <input th:value="${book.idb}" name="idb" type="hidden"/>
+                    <select th:field="*{idp}" class="btn btn-default">
+                        <option th:each="person : ${persons}"
+                                th:value="${person.idp}" th:text="${person.firstName}+' '+${person.lastName}"></option>
+                    </select>
+                            <p style="display: inline; float: right; margin-right: 400px"><a th:href="'/book?idb='+${book.idb}"><button  type="submit" class="btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-book"></span> Wypożycz książkę</button></a></p>
+                </form>
             </div>
-            </br></br>
-            <a href="javascript:history.back()"><< powrót do poprzedniej strony</a>
+            <hr>
+            <p style="display: inline; float: right; margin-bottom: 10px;">
+                <a  href="javascript:history.back()"><button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-hand-left"></span> Poprzednia strona</button></a></p>
+
         </div>
 
 
 
-</div>
+        <div class="col-sm-4">
+            <!-- Search -->
+            <span th:include="menu :: search" ></span>
 
+
+            <!-- list group -->
+            <span th:include="menu :: category" ></span>
+
+
+            <!-- Panel -->
+            <span th:include="menu :: panel" ></span>
+
+            <span th:include="menu :: panel" ></span>
+
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+    <span th:include="menu :: footer" ></span>
+</div>
+<!-- /.container-fluid -->
+
+<!-- JQuery scripts -->
+<script src="/js/jquery-1.11.2.min.js"></script>
+
+<!-- Bootstrap Core scripts -->
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
+

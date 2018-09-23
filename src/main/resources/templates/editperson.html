@@ -28,7 +28,14 @@
 <body>
 
 <!-- Navigation -->
+<!-- Navigation -->
 <span th:include="menu :: gora"></span>
+
+
+
+
+
+
 
 
 <!-- Page Content -->
@@ -47,32 +54,33 @@
 
             <!-- Image -->
             <figure class="margin-b-2">
-                <img class="img-responsive" src="/img/books4s.jpg" alt="">
+                <img class="img-responsive" src="/img/books1s.jpg" alt="">
                 <figcaption class="margin-t-h"></figcaption>
             </figure>
             <hr>
 
             <!--  książki -->
-            <a  style="display: inline; float: right" th:href="'/addbook'"> <img src="/img/plus.png" width="20px"/>  Dodaj nową książkę</a>
-            <h3>Lista wszystkich książek</h3>
 
-            <div class="well"  th:each="book: ${books}">
-                <div class="media">
-                    <div class="media-left">
-                        <img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt="">
+            <h3>Edycja danych osoby</h3>
+
+            <div class="well">
+                <form action="/editp" method="post" th:object="${person}">
+                    <input th:name="idp" th:value="*{idp}" type="hidden"/>
+                    <div class="form-group">
+                        <label for="firstNAme">Imię</label>
+                        <input th:field="*{firstName}"  type="text" class="form-control" id="firstNAme" placeholder="Wpisz imię">
                     </div>
-                    <div class="media-body">
-                        <h4 class="margin-t-0"><a th:href="'/book?idb='+${book.idb}"   th:text="${book.author} +' - ' + ${book.title}"></a></h4>
-                        <p style="color: #f19f1f;" th:text="'Kategoria: '+${book.category}"></p>
-                        <p class="text-secondary" th:text="'Wydawnictwo: '+${book.publisher}"></p>
-                        <p class="text-secondary" th:text="'Rok wydania: '+${book.publicationYear}"></p>
-                        <p style="display: inline; float: right"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-circle-arrow-right"></span> Szczegóły </button></a></p>
-                        <p th:text="${book.description}"></p>
-                        <p style="display: inline; float: right"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span> Edycja danych</button></a></p>
+                    <div class="form-group">
+                        <label for="lastName">Nazwisko</label>
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastName" placeholder="Wpisz nazwisko">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="phone">Telefon</label>
+                        <input th:field="*{phone}" type="text" class="form-control" id="phone" placeholder="Wpisz telefon">
+                    </div>
+                    <p ><button class="btn btn-sm btn-default" type="submit">
+                        <span class="glyphicon glyphicon-saved"></span> Zapisz </button></p>
+                </form>
             </div>
 
 
@@ -87,8 +95,7 @@
             <span th:include="menu :: search" ></span>
 
 
-            <!-- list group -->
-            <span th:include="menu :: category" ></span>
+
 
 
             <!-- Panel -->

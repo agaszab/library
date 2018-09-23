@@ -16,16 +16,18 @@ public class Book {
  private String author;
  private String category;
  private String publisher;
+ private String description;
  private int publicationYear;
 
  public Book() {
  }
 
- public Book(String title, String author, String category, String publisher, int publicationYear) {
+ public Book(String title, String author, String category, String publisher, String description, int publicationYear) {
   this.title = title;
   this.author = author;
   this.category = category;
   this.publisher = publisher;
+  this.description = description;
   this.publicationYear = publicationYear;
  }
 
@@ -69,6 +71,14 @@ public class Book {
   this.publisher = publisher;
  }
 
+ public String getDescription() {
+  return description;
+ }
+
+ public void setDescription(String description) {
+  this.description = description;
+ }
+
  public int getPublicationYear() {
   return publicationYear;
  }
@@ -86,6 +96,7 @@ public class Book {
           ", category='" + category + '\'' +
           ", publisher='" + publisher + '\'' +
           ", publicationYear=" + publicationYear +
+          ", description=" + description +
           '}';
  }
 }
