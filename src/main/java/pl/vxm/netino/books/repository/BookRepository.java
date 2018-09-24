@@ -12,5 +12,7 @@ import java.util.List;
 public interface BookRepository extends JpaRepository <Book, Long> {
 
     Page<Book> findAll(Pageable page);
-
+    List <Book> findAllByCategory(String category);
+    List <Book> findAllByAuthor( String author);
+    List <Book> findAllByTitle( String title);
 }

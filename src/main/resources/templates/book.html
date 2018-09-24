@@ -54,8 +54,8 @@
             <hr>
 
             <!--  książki -->
-            <h3 th:text="'Autor:'+${book.author}"></h3>
-            <h3 th:text="'Tytuł: '+${book.title}"></h3>
+            <h3 th:text="''"></h3>
+
 
 
 
@@ -64,6 +64,7 @@
                 <div class="media">
                     <div class="media-body">
                         <span style="display: inline; float: left; margin-right:10px;"><img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt=""></span>
+                        <h4 th:text="${book.author}+' - '+${book.title}"></h4>
                         <p style="color: #f19f1f;" th:text="'Kategoria: '+${book.category}"></p>
                         <p th:text="'Wydawnictwo: '+${book.publisher}"></p>
                         <p th:text="'Rok wydania: '+${book.publicationYear}"></p>

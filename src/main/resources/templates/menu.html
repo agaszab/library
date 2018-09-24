@@ -26,12 +26,13 @@
 <div >
              <div class="well">
                  <h4 class="margin-t-0">Szukaj książki po tytule:</h4>
-                 <form action="#">
+                 <form action="/searchtitle">
                      <div class="input-group">
-                         <label class="sr-only" for="search-form">Search the site</label>
-                         <input type="text" class="form-control" id="search-form">
+                         <label class="sr-only" for="title">Tytuł</label>
+                         <input type="text" class="form-control" id="title" name="title">
+
                          <span class="input-group-btn">
- 									<button class="btn btn-default" type="button">
+ 									<button class="btn btn-default" type="submit">
  										<span class="glyphicon glyphicon-search"></span>
  										<span class="sr-only">Search</span>
  									</button>
@@ -39,13 +40,14 @@
                      </div>
                  </form>
                  <br>
+
                   <h4 class="margin-t-0">Szukaj książki po autorze:</h4>
-                                  <form action="#">
+                                  <form action="/searchauthor">
                                       <div class="input-group">
-                                          <label class="sr-only" for="search-form">Search the site</label>
-                                          <input type="text" class="form-control" id="search-form">
+                                          <label class="sr-only" for="author" name="author">Autor</label>
+                                          <input type="text" class="form-control" id="author">
                                           <span class="input-group-btn">
-                  									<button class="btn btn-default" type="button">
+                  									<button class="btn btn-default" type="submit">
                   										<span class="glyphicon glyphicon-search"></span>
                   										<span class="sr-only">Search</span>
                   									</button>
@@ -63,12 +65,12 @@
 <div >
              <div class="well">
                  <h4 class="margin-t-0">Wyszukaj osobę po nazwisku:</h4>
-                 <form action="#">
+                 <form action="/searchperson">
                      <div class="input-group">
-                         <label class="sr-only" for="search-form">Search the site</label>
-                         <input type="text" class="form-control" id="search-form">
+                         <label class="sr-only" for="fname">Nazwisko</label>
+                         <input type="text" class="form-control" id="fname" name="fname">
                          <span class="input-group-btn">
- 									<button class="btn btn-default" type="button">
+ 									<button class="btn btn-default" type="submit">
  										<span class="glyphicon glyphicon-search"></span>
  										<span class="sr-only">Search</span>
  									</button>
@@ -87,9 +89,9 @@
 <span th:fragment="category">
 <div class="list-group margin-b-3" >
                 <a href="#" class="active list-group-item">Pokaż książki z kategorii:</a>
-                <span th:each="cat:${categories}">
-                <a href="#" class="list-group-item"  th:text="${cat}"></a>
-                </span>
+
+                <a th:each="cat:${categories}" th:href="'/bookcategory?cathegory='+${cat}" class="list-group-item"  th:text="${cat}"></a>
+
             </div>
 </span>
 

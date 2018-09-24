@@ -42,10 +42,11 @@ public class MainController {
         Pageable pageable = new PageRequest(0, 2, Sort.Direction.DESC, "idb");
         Page<Book> books=bookRepository.findAll(pageable);
         List<Book> topTwoBookList = books.getContent();
-        TreeSet<String> categories= new TreeSet<>();
+        TreeSet<String> categories;
         categories=categories();
-        model.addAttribute("topTwoBookList", topTwoBookList);
         model.addAttribute("categories", categories);
+        model.addAttribute("topTwoBookList", topTwoBookList);
+
         return "index";
     }
 
@@ -87,6 +88,9 @@ public class MainController {
     @GetMapping("/books")
     public String books(Model model) {
         List<Book> books = bookRepository.findAll();
+        TreeSet<String> categories;
+        categories=categories();
+        model.addAttribute("categories", categories);
         model.addAttribute("books", books);
         return "books";
     }
@@ -97,6 +101,9 @@ public class MainController {
 
         Optional<Book> bookOptional = bookRepository.findById(idb);
         Borrowed borrowed = borrowedRepository.findByIdbAndReturnedFalse(idb);
+        TreeSet<String> categories;
+        categories=categories();
+        model.addAttribute("categories", categories);
 
         if (bookOptional.isPresent()) {
             if (borrowed!=null) {
@@ -257,7 +264,52 @@ public class MainController {
     }
 
 
-    public List<Book> showBooksForPerson(long idp, boolean hist){
+    @GetMapping("/bookcategory")
+        public String bookCategory (Model model, @RequestParam String cathegory){
+        List <Book> books;
+        books=bookRepository.findAllByCategory(cathegory);
+        TreeSet<String> categories;
+        categories=categories();
+        model.addAttribute("cathegory", cathegory);
+        model.addAttribute("categories", categories);
+        model.addAttribute("books", books);
+        return "books";
+        }
+
+    @GetMapping("/searchperson")
+       public String searchPerson(Model model, @RequestParam String fname){
+        List <Person> persons=personRepository.findAllByLastName(fname);
+        if (persons.isEmpty()) return "noresult";
+        model.addAttribute("persons", persons);
+        model.addAttribute("hist", true);
+        return "people";
+            }
+
+    @GetMapping("/searchtitle")
+    public String searchTitle(Model model, @RequestParam String title){
+        List <Book> books=bookRepository.findAllByTitle(title);
+        if (books.isEmpty()) return "noresult";
+        TreeSet<String> categories;
+        categories=categories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("books", books);
+        return "books";
+    }
+
+    @GetMapping("/searchauthor")
+    public String searchAuthorn(Model model, @RequestParam String author){
+        List <Book> books=bookRepository.findAllByAuthor(author);
+        if (books.isEmpty()) return "noresult";
+        TreeSet<String> categories;
+        categories=categories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("books", books);
+        return "books";
+    }
+
+
+
+        public List<Book> showBooksForPerson(long idp, boolean hist){
         List<Book> books= new ArrayList<>();
         List<Borrowed> borroweds;
         if (hist) borroweds = borrowedRepository.findAllByIdpAndReturnedFalse(idp);
