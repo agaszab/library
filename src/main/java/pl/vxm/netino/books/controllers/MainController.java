@@ -203,7 +203,7 @@ public class MainController {
                 newPerson.setPhone(person.getPhone());
                 personRepository.save(newPerson);
                 return "/people";
-            } else return "/nodata";
+            } else return "nodata";
         }
         return "/people";
     }
@@ -219,8 +219,8 @@ public class MainController {
     public String addp(Person person) {
         if (!person.getFirstName().equals("") && !person.getLastName().equals("")) {
             personRepository.save(person);
-            return "redirect:/persons";
-        } else return "/nodata";
+            return "/people";
+        } else return "nodata";
     }
 
     @PostMapping("/addborrowed")
@@ -252,15 +252,16 @@ public class MainController {
     }
 
     @GetMapping("/returnbooks")
-    public String returnBookRofPerson (@RequestParam long idb){
+    public String returnBookFofPerson (Model model, @RequestParam long idb){
 
         Borrowed  borrowed = borrowedRepository.findByIdbAndReturnedFalse(idb);
         if (borrowed!=null) {
             borrowed.setReturned(true);
             borrowedRepository.save(borrowed);
+            return "redirect:/people";
         }
 
-        return "redirect:/";
+        return "/noresult";
     }
 
 
@@ -276,18 +277,39 @@ public class MainController {
         return "books";
         }
 
-    @GetMapping("/searchperson")
-       public String searchPerson(Model model, @RequestParam String fname){
-        List <Person> persons=personRepository.findAllByLastName(fname);
+    @GetMapping("/searchpersonfirst")
+       public String searchPersonF(Model model, @RequestParam String fname){
+        List <Person> allPersons=personRepository.findAll();
+        List <Person> persons = new ArrayList<>();
+        for (Person elem:allPersons){
+            String pom=elem.getFirstName().toLowerCase();
+            String pomFname=fname.toLowerCase();
+            if (pom.contains(pomFname)) persons.add(elem);
+        }
         if (persons.isEmpty()) return "noresult";
         model.addAttribute("persons", persons);
         model.addAttribute("hist", true);
         return "people";
             }
 
+    @GetMapping("/searchpersonlast")
+    public String searchPersonL(Model model, @RequestParam String lname){
+        List <Person> allPersons=personRepository.findAll();
+        List <Person> persons = new ArrayList<>();
+        for (Person elem:allPersons){
+            String pom=elem.getLastName().toLowerCase();
+            String pomLname=lname.toLowerCase();
+            if (pom.contains(pomLname)) persons.add(elem);
+        }
+        if (persons.isEmpty()) return "noresult";
+        model.addAttribute("persons", persons);
+        model.addAttribute("hist", true);
+        return "people";
+    }
+
     @GetMapping("/searchtitle")
     public String searchTitle(Model model, @RequestParam String title){
-        List <Book> books=bookRepository.findAllByTitle(title);
+        List <Book> books=searchBooks("title", title);
         if (books.isEmpty()) return "noresult";
         TreeSet<String> categories;
         categories=categories();
@@ -298,7 +320,7 @@ public class MainController {
 
     @GetMapping("/searchauthor")
     public String searchAuthorn(Model model, @RequestParam String author){
-        List <Book> books=bookRepository.findAllByAuthor(author);
+        List <Book> books=searchBooks("author", author);
         if (books.isEmpty()) return "noresult";
         TreeSet<String> categories;
         categories=categories();
@@ -333,4 +355,19 @@ public class MainController {
         return categories;
     }
 
+    public List <Book> searchBooks(String name, String searchBook){
+
+        List <Book> allBooks=bookRepository.findAll();
+        List <Book> books = new ArrayList<>();
+
+        for (Book elem:allBooks){
+            searchBook.toLowerCase();
+            String pom;
+            if (name.equals("title")) pom=elem.getTitle().toLowerCase();
+            else pom=elem.getAuthor().toLowerCase();
+            if (pom.contains(searchBook)) books.add(elem);
+        }
+
+        return books;
+    }
 }
