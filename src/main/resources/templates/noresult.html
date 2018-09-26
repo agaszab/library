@@ -61,21 +61,18 @@
 
             <!--  książki -->
 
-            <h3>Wyszukiwanie</h3>
-
-            <p>Brak danych pasujących do zapytania.</p>
-
+            <h3>Operacja nie powiodła się.</h3>
 
             <hr>
-
+            <span th:include="menu :: return" ></span>
         </div>
 
 
 
         <div class="col-sm-4">
             <!-- Search -->
-            <span th:include="menu :: search" ></span>
-
+            <span th:if="${empty}" th:include="menu :: search" ></span>
+            <span th:unless="${empty}" th:include="menu :: searchPeople" ></span>
 
             <!-- list group -->
             <span th:include="menu :: category" ></span>
