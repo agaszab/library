@@ -1,9 +1,6 @@
 package pl.vxm.netino.books.mod;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Book {
@@ -16,6 +13,7 @@ public class Book {
  private String author;
  private String category;
  private String publisher;
+ @Column(columnDefinition = "TEXT")
  private String description;
  private int publicationYear;
 

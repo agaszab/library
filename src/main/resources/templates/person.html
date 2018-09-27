@@ -51,7 +51,7 @@
 
             <!-- Image -->
             <figure class="margin-b-2">
-                <img class="img-responsive" src="/img/books3s.jpg" alt="">
+                <img class="img-responsive" src="/img/books1s.jpg" alt="">
                 <figcaption class="margin-t-h"></figcaption>
             </figure>
             <hr>
@@ -76,10 +76,10 @@
                                 <a th:href="'/book?idb='+${book.idb}"  th:text="'Autor: '+${book.author}"/></a><br>
                                 <a th:href="'/book?idb='+${book.idb}"  th:text="'Tytuł: '+${book.title}"/></a><br><br></li>
                            </ul>
-                        <a  th:if="${hist}" th:href="'/person?idp='+${person.idp}+'&&hist=false'" th:text="'historia pożyczonych książek'"></a>
+                        <p >
+                            <a  th:if="${hist}" th:href="'/person?idp='+${person.idp}+'&&hist=false'"><button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-align-justify"></span> Historia pożyczonych książek</button></a></p>
+
                         </p>
-                        <p style="display: inline; float: right; margin-bottom: 10px;">
-                            <a  href="javascript:history.back()"><button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-hand-left"></span> Poprzednia strona</button></a></p>
 
 
                     </div>
@@ -87,6 +87,7 @@
             </div>
 
             <hr>
+            <span th:include="menu :: return" ></span>
 
         </div>
 

@@ -99,12 +99,12 @@ public class MainController {
     @GetMapping("/book")
     public String book(Model model, @RequestParam long idb) {
 
-        Optional<Book> bookOptional = bookRepository.findById(idb);
-        Borrowed borrowed = borrowedRepository.findByIdbAndReturnedFalse(idb);
         TreeSet<String> categories;
         categories=categories();
         model.addAttribute("categories", categories);
 
+        Optional<Book> bookOptional = bookRepository.findById(idb);
+        Borrowed borrowed = borrowedRepository.findByIdbAndReturnedFalse(idb);
         if (bookOptional.isPresent()) {
             if (borrowed!=null) {
                 model.addAttribute("pom", true);
@@ -130,6 +130,19 @@ public class MainController {
             }
 
         return "/book";
+    }
+
+
+    @GetMapping("/borroweds")
+    public String borroweds (Model model) {
+        List<Borrowed> borroweds = borrowedRepository.findAllByReturnedFalse();
+        TreeSet<String> categories;
+        categories=categories();
+        List books =new ArrayList();
+        addListBook (borroweds, books);
+        model.addAttribute("categories", categories);
+        model.addAttribute("books", books);
+        return "books";
     }
 
 
@@ -234,7 +247,7 @@ public class MainController {
             borrowed.setDateBorrowing(sqlDate);
             borrowedRepository.save(borrowed);
 
-        return "/books";
+        return "redirect: /books";
     }
 
 
@@ -310,7 +323,9 @@ public class MainController {
     @GetMapping("/searchtitle")
     public String searchTitle(Model model, @RequestParam String title){
         List <Book> books=searchBooks("title", title);
-        if (books.isEmpty()) return "noresult";
+        if (books.isEmpty()){
+            model.addAttribute("empty", true);
+            return "noresult";}
         TreeSet<String> categories;
         categories=categories();
         model.addAttribute("categories", categories);
@@ -321,7 +336,9 @@ public class MainController {
     @GetMapping("/searchauthor")
     public String searchAuthorn(Model model, @RequestParam String author){
         List <Book> books=searchBooks("author", author);
-        if (books.isEmpty()) return "noresult";
+        if (books.isEmpty()) {
+            model.addAttribute("empty", true);
+            return "noresult";}
         TreeSet<String> categories;
         categories=categories();
         model.addAttribute("categories", categories);
@@ -336,12 +353,7 @@ public class MainController {
         List<Borrowed> borroweds;
         if (hist) borroweds = borrowedRepository.findAllByIdpAndReturnedFalse(idp);
           else borroweds=borrowedRepository.findAllByIdpAndReturnedTrue(idp);
-        for (Borrowed elem:borroweds){
-            Optional<Book> bookOptional = bookRepository.findById(elem.getIdb());
-            if (bookOptional.isPresent()) {
-                Book book = bookOptional.get();
-                books.add(book);
-            }}
+          addListBook (borroweds, books);
      return books;
     }
 
@@ -369,5 +381,15 @@ public class MainController {
         }
 
         return books;
+    }
+
+    public void addListBook (List<Borrowed> borroweds, List <Book> books){
+    for (Borrowed elem:borroweds) {
+        Optional<Book> bookOptional = bookRepository.findById(elem.getIdb());
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            books.add(book);
+        }
+    }
     }
 }

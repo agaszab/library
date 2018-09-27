@@ -75,7 +75,7 @@
                         <!-- zwrot -->
 
                         <div th:if="${pom}" th:object="${borrowed}">
-                            <a style="color:#228B22;" th:href="'/person?idp='+${person.idp}+'&&hist=true'" th:text="'Książka wypożyczona przez: '+${person.firstName}+'  '+${person.lastName}+''"</a>
+                            <a style="color:#CC0066; font-weight: bold" th:href="'/person?idp='+${person.idp}+'&&hist=true'" th:text="'Książka wypożyczona przez: '+${person.firstName}+'  '+${person.lastName}+''"</a>
                             <p style="display: inline; float: right"><a th:href="'/returnbook?id='+${borrowed.id}"><button class="btn btn-sm btn-default">
                                 <span class="glyphicon glyphicon-circle-arrow-right"></span> Zwrot książki </button></a></p>
                         </div>
@@ -99,9 +99,7 @@
                 </form>
             </div>
             <hr>
-            <p style="display: inline; float: right; margin-bottom: 10px;">
-                <a  href="javascript:history.back()"><button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-hand-left"></span> Poprzednia strona</button></a></p>
-
+            <span th:include="menu :: return" ></span>
         </div>
 
 

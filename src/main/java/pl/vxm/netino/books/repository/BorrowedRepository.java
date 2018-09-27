@@ -10,4 +10,5 @@ public interface BorrowedRepository  extends JpaRepository <Borrowed, Long>{
     List<Borrowed> findAllByIdpAndReturnedTrue(long idp);
     List<Borrowed> findAllByIdpAndReturnedFalse(long idp);
     Borrowed findByIdbAndReturnedFalse(long idb);
+    List<Borrowed> findAllByReturnedFalse();
 }

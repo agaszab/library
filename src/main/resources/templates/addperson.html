@@ -78,14 +78,14 @@
                         <label for="phone">Telefon</label>
                         <input th:field="*{phone}" type="text" class="form-control" id="phone" placeholder="Wpisz telefon">
                     </div>
-                    <p ><button class="btn btn-sm btn-default" type="submit">
+                    <p  <p style="text-align: right">><button class="btn btn-sm btn-default" type="submit">
                         <span class="glyphicon glyphicon-saved"></span> Zapisz </button></p>
                 </form>
             </div>
 
 
             <hr>
-
+            <span th:include="menu :: return" ></span>
         </div>
 
 

@@ -8,7 +8,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/books">Wykaz książek</a></li>
                 <li><a href="/people">Ludzie</a></li>
-                <li><a href="#">Opcja menu</a></li>
+                <li><a href="/borroweds">Wypożyczenia</a></li>
             </ul>
 
  <div>
@@ -44,8 +44,8 @@
                   <h4 class="margin-t-0">Szukaj książki po autorze:</h4>
                                   <form action="/searchauthor">
                                       <div class="input-group">
-                                          <label class="sr-only" for="author" name="author">Autor</label>
-                                          <input type="text" class="form-control" id="author">
+                                          <label class="sr-only" for="author" >Autor</label>
+                                          <input type="text" class="form-control" id="author" name="author">
                                           <span class="input-group-btn">
                   									<button class="btn btn-default" type="submit">
                   										<span class="glyphicon glyphicon-search"></span>
@@ -65,10 +65,10 @@
 <div >
              <div class="well">
                  <h4 class="margin-t-0">Wyszukaj osobę po nazwisku:</h4>
-                 <form action="/searchperson">
+                 <form action="/searchpersonlast">
                      <div class="input-group">
-                         <label class="sr-only" for="fname">Nazwisko</label>
-                         <input type="text" class="form-control" id="fname" name="fname">
+                         <label class="sr-only" for="lname">Nazwisko</label>
+                         <input type="text" class="form-control" id="lname" name="lname">
                          <span class="input-group-btn">
  									<button class="btn btn-default" type="submit">
  										<span class="glyphicon glyphicon-search"></span>
@@ -77,6 +77,20 @@
  								</span>
                      </div>
                  </form>
+
+                  <h4 class="margin-t-0">Wyszukaj osobę po imieniu:</h4>
+                                  <form action="/searchpersonfirst">
+                                      <div class="input-group">
+                                          <label class="sr-only" for="fname">Imię</label>
+                                          <input type="text" class="form-control" id="fname" name="fname">
+                                          <span class="input-group-btn">
+                  									<button class="btn btn-default" type="submit">
+                  										<span class="glyphicon glyphicon-search"></span>
+                  										<span class="sr-only">Search</span>
+                  									</button>
+                  								</span>
+                                      </div>
+                                  </form>
 
              </div>
 
@@ -126,3 +140,10 @@
         </div>
     </footer>
     </span>
+
+
+   <!-- RETURN -->
+    <span th:fragment="return">
+     <p style="display: inline; float: right; margin-bottom: 10px;">
+                    <a  href="javascript:history.back()"><button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-hand-left"></span> Poprzednia strona</button></a></p>
+</span>

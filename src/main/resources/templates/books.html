@@ -47,7 +47,7 @@
 
             <!-- Image -->
             <figure class="margin-b-2">
-                <img class="img-responsive" src="/img/books4s.jpg" alt="">
+                <img class="img-responsive" src="/img/books1s.jpg" alt="">
                 <figcaption class="margin-t-h"></figcaption>
             </figure>
             <hr>
@@ -66,10 +66,12 @@
                         <p style="color: #f19f1f;" th:text="'Kategoria: '+${book.category}"></p>
                         <p class="text-secondary" th:text="'Wydawnictwo: '+${book.publisher}"></p>
                         <p class="text-secondary" th:text="'Rok wydania: '+${book.publicationYear}"></p>
-                        <p style="display: inline; float: right"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-circle-arrow-right"></span> Szczegóły </button></a></p>
-                        <p th:text="${book.description}"></p>
-                        <p style="display: inline; float: right"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
+
+                        <p th:if="${book.description.length()>200}" th:text="${book.description.substring(0,190)}+'...'"></p>
+                        <p th:if="${book.description.length()<200}" th:text="${book.description}+'...'"></p>
+                        <p style="display: inline; float: right; margin-left:15px;"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-list-alt"></span> Szczegóły </button></a></p>
+                        <p><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-pencil"></span> Edycja danych</button></a></p>
                     </div>
                 </div>
