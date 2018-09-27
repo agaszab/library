@@ -292,13 +292,7 @@ public class MainController {
 
     @GetMapping("/searchpersonfirst")
        public String searchPersonF(Model model, @RequestParam String fname){
-        List <Person> allPersons=personRepository.findAll();
-        List <Person> persons = new ArrayList<>();
-        for (Person elem:allPersons){
-            String pom=elem.getFirstName().toLowerCase();
-            String pomFname=fname.toLowerCase();
-            if (pom.contains(pomFname)) persons.add(elem);
-        }
+        List <Person> persons=searchPersons("fname", fname);
         if (persons.isEmpty()) return "noresult";
         model.addAttribute("persons", persons);
         model.addAttribute("hist", true);
@@ -307,13 +301,7 @@ public class MainController {
 
     @GetMapping("/searchpersonlast")
     public String searchPersonL(Model model, @RequestParam String lname){
-        List <Person> allPersons=personRepository.findAll();
-        List <Person> persons = new ArrayList<>();
-        for (Person elem:allPersons){
-            String pom=elem.getLastName().toLowerCase();
-            String pomLname=lname.toLowerCase();
-            if (pom.contains(pomLname)) persons.add(elem);
-        }
+        List <Person> persons=searchPersons("lname", lname);
         if (persons.isEmpty()) return "noresult";
         model.addAttribute("persons", persons);
         model.addAttribute("hist", true);
@@ -325,7 +313,8 @@ public class MainController {
         List <Book> books=searchBooks("title", title);
         if (books.isEmpty()){
             model.addAttribute("empty", true);
-            return "noresult";}
+            return "noresult";
+        }
         TreeSet<String> categories;
         categories=categories();
         model.addAttribute("categories", categories);
@@ -382,6 +371,46 @@ public class MainController {
 
         return books;
     }
+
+    public List <Person> searchPersons(String name, String searchPerson){
+
+        List <Person> persons = new ArrayList<>();
+        List <Person> allPersons=personRepository.findAll();
+
+        for (Person elem:allPersons){
+        searchPerson.toLowerCase();
+        String pom;
+        if (name.equals("lname")) pom=elem.getLastName().toLowerCase();
+        else pom=elem.getFirstName().toLowerCase();
+        if (pom.contains(searchPerson)) persons.add(elem);
+    }
+        return persons;
+    }
+
+    /*
+     public String searchPersonL(Model model, @RequestParam String lname){
+
+        List <Person> persons = new ArrayList<>();
+        List <Person> allPersons=personRepository.findAll();
+
+        for (Person elem:allPersons){
+            String pom=elem.getLastName().toLowerCase();
+            String pomLname=lname.toLowerCase();
+            if (pom.contains(pomLname)) persons.add(elem);
+        }
+
+     public String searchPersonF(Model model, @RequestParam String fname){
+
+        List <Person> persons = new ArrayList<>();
+        List <Person> allPersons=personRepository.findAll();
+
+        for (Person elem:allPersons){
+            String pom=elem.getFirstName().toLowerCase();
+            String pomFname=fname.toLowerCase();
+            if (pom.contains(pomFname)) persons.add(elem);
+        }
+
+        */
 
     public void addListBook (List<Borrowed> borroweds, List <Book> books){
     for (Borrowed elem:borroweds) {
