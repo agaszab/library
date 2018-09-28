@@ -63,7 +63,9 @@
 
             <h3>NAGLOWEK</h3>
 
-           <p>treść strony </p>
+           <p th:each="borrowed:${borroweds}">
+               <span th:text="${borrowed.idp}+'data:'+${borrowed.dateBorrowing}"></span>
+           </p>
 
 
             <hr>
