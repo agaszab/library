@@ -71,12 +71,12 @@
                         <p th:if="${book.description.length()<200}" th:text="${book.description}+'...'"></p>
                         <p style="display: inline; float: right; margin-left:15px;"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-list-alt"></span> Szczegóły </button></a></p>
-                        <p><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
+                        <p th:if="${time}==null"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-pencil"></span> Edycja danych</button></a></p>
                     </div>
                 </div>
             </div>
-            <p th:text="${sqlDate}"></p>
+
 
             <hr>
 
@@ -89,8 +89,10 @@
             <span th:include="menu :: search" ></span>
 
             <!-- list borrowed -->
-            <span th:include="menu :: borroweds" ></span>
+            <span th:if="${time}!=null" th:include="menu :: borroweds" ></span>
 
+            <!-- list borrowed -->
+            <span th:if="${time}==null" th:include="menu :: category" ></span>
 
             <!-- Panel -->
             <span th:include="menu :: panel" ></span>

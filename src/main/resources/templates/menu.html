@@ -115,7 +115,7 @@
 <span th:fragment="borroweds">
 <div class="list-group margin-b-3" >
                 <a href="#" class="active list-group-item">Pokaż wypożyczenia:</a>
-
+                <a th:href="'/borroweds?time=2'" class="list-group-item"  th:text="'wszystkie'"></a>  <!-- time 1 znaczy bieżące, poniżej miesiąca -->
                 <a th:href="'/borroweds?time=1'" class="list-group-item"  th:text="'z ostatniego miesiąca'"></a>  <!-- time 1 znaczy bieżące, poniżej miesiąca -->
                 <a th:href="'/borroweds?time=0'" class="list-group-item"  th:text="'starsze niż miesiąc'"></a>    <!--  time 0 znaczy przetrzymane -->
             </div>

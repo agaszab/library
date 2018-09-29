@@ -148,6 +148,7 @@ public class MainController {
         addListBook (borroweds, books);
         model.addAttribute("categories", categories);
         model.addAttribute("books", books);
+        model.addAttribute("time", time);
         return "books";
     }
 
