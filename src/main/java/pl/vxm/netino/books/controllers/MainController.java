@@ -244,7 +244,7 @@ public class MainController {
     }
 
     @PostMapping("/addborrowed")
-    public String newBorrowed(Borrowed borrowed, Person person) {
+    public String newBorrowed(Borrowed borrowed, Person person, Model model) {
 
             borrowed.setIdb(borrowed.getIdb());
             borrowed.setIdp(person.getIdp());
@@ -253,8 +253,8 @@ public class MainController {
             Date sqlDate = Date.valueOf( today );
             borrowed.setDateBorrowing(sqlDate);
             borrowedRepository.save(borrowed);
-
-        return "redirect: /books";
+            model.addAttribute("idb", borrowed.getIdb());
+        return "/book";
     }
 
 
