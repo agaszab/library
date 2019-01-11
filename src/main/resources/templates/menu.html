@@ -9,6 +9,7 @@
                 <li><a href="/books">Wykaz książek</a></li>
                 <li><a href="/people">Ludzie</a></li>
                 <li><a href="/borroweds?time=2">Wypożyczenia</a></li>
+                <li><a href="/admin">Panel administracyjny</a></li>
             </ul>
 
  <div>
@@ -104,7 +105,7 @@
 <div class="list-group margin-b-3" >
                 <a href="#" class="active list-group-item">Pokaż książki z kategorii:</a>
 
-                <a th:each="cat:${categories}" th:href="'/bookcategory?cathegory='+${cat}" class="list-group-item"  th:text="${cat}"></a>
+                <a th:each="cat:${categories}" th:href="'/bookcategory?cathegory='+${cat.getIdc()}" class="list-group-item"  th:text="${cat}"></a>
 
             </div>
 </span>
@@ -122,7 +123,16 @@
 </span>
 
 
+<!-- PANEL ->> ADMIN -->
 
+<span th:fragment="admin">
+<div class="list-group margin-b-3" >
+                <a href="#" class="active list-group-item"></a>
+                <a th:href="'/books?ad=1'" class="list-group-item"  th:text="'edycja książek'"></a>  <!-- ad=1 zmienna przekazująca aktywność przycisków edycji  -->
+                <a th:href="'/people?ad=1'" class="list-group-item"  th:text="'edycja ludzi'"></a>
+                <a th:href="'/borroweds?ad=1&time=2'" class="list-group-item"  th:text="'wypożyczenia/zwroty'"></a>
+            </div>
+</span>
 
 
  <!-- PANEL z tekstem -->
@@ -130,10 +140,10 @@
 <span th:fragment="panel">
  <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Sidebar panel widget</h4>
+                    <h4 class="panel-title">Standardowy fragment Lorem Ipsum</h4>
                 </div>
                 <div class="panel-body">
-                    <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
 

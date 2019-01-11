@@ -4,18 +4,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import pl.vxm.netino.books.mod.Book;
-import pl.vxm.netino.books.mod.Borrowed;
-import pl.vxm.netino.books.mod.Person;
+import org.springframework.web.bind.annotation.*;
+import pl.vxm.netino.books.mod.*;
 import pl.vxm.netino.books.repository.BookRepository;
 import pl.vxm.netino.books.repository.BorrowedRepository;
+import pl.vxm.netino.books.repository.CategoryRepository;
 import pl.vxm.netino.books.repository.PersonRepository;
+import pl.vxm.netino.books.repository.UserRepository;
 
+import java.security.Principal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
@@ -27,11 +27,17 @@ public class MainController {
     private BookRepository bookRepository;
     private PersonRepository personRepository;
     private BorrowedRepository borrowedRepository;
+    private CategoryRepository categoryRepository;
+    private UserRepository userRepository;
+    private List <Category> categories;
 
-    public MainController(BookRepository bookRepository, PersonRepository personRepository, BorrowedRepository borrowedRepository) {
+    public MainController(BookRepository bookRepository, PersonRepository personRepository, BorrowedRepository borrowedRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.bookRepository = bookRepository;
         this.personRepository = personRepository;
         this.borrowedRepository = borrowedRepository;
+        this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
+        this.categories=categoryRepository.findAll();
     }
 
     @GetMapping("/")
@@ -39,25 +45,46 @@ public class MainController {
         Pageable pageable = new PageRequest(0, 2, Sort.Direction.DESC, "idb");
         Page<Book> books=bookRepository.findAll(pageable);
         List<Book> topTwoBookList = books.getContent();
-        TreeSet<String> categories;
-        categories=categories();
         model.addAttribute("categories", categories);
         model.addAttribute("topTwoBookList", topTwoBookList);
 
         return "index";
     }
+    @GetMapping("/admin")
+    public String admin (Model model) {
+
+
+        return "panel";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+
+    }
+    @PostMapping("/login")
+    public String logowanie(Model model, Principal principal) {
+        String login = principal.getName();
+        User user = userRepository.findByUsername(login);
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "panel";
+        } else return "login";
+
+    }
 
     @GetMapping("/people")
-    public String persons(Model model) {
+    public String persons(Model model,  String ad) {
         List<Person> persons = personRepository.findAll();
         model.addAttribute("persons", persons);
         model.addAttribute("hist", true);
+        if (ad!=null && ad.equals("1")) model.addAttribute("ad", "1");
         return "people";
     }
 
 
     @GetMapping("/person")
-    public String persons(Model model, boolean hist, @RequestParam long idp) {
+    public String persons(Model model, boolean hist, @RequestParam long idp, String ad) {
 
         Optional<Person> personOptional = personRepository.findById(idp);
 
@@ -76,6 +103,7 @@ public class MainController {
         else if (books.size()==0 && hist==true) model.addAttribute("bookHead", "Obecnie brak wypożyczeń");
         else if (books.size()>0 && hist==false) model.addAttribute("bookHead", "Historia wypożyczeń:");
         else model.addAttribute("bookHead", "Ta osoba nigdy nic wcześniej nie wypożyczała.");
+        if (ad!=null && ad.equals("1")) model.addAttribute("ad", "1");
         return "person";
     }
 
@@ -83,21 +111,24 @@ public class MainController {
 
 
     @GetMapping("/books")
-    public String books(Model model) {
+    public String books(Model model, String ad) {
         List<Book> books = bookRepository.findAll();
-        TreeSet<String> categories;
-        categories=categories();
+        List<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("books", books);
+        if (ad!=null && ad.equals("1")) model.addAttribute("ad", "1");
         return "books";
     }
 
+    @PostMapping("/book")
+    public String postBook(Model model, @RequestParam long idb) {
+     String strona=book(model, idb);
+     return strona;
+    }
 
     @GetMapping("/book")
     public String book(Model model, @RequestParam long idb) {
 
-        TreeSet<String> categories;
-        categories=categories();
         model.addAttribute("categories", categories);
 
         Optional<Book> bookOptional = bookRepository.findById(idb);
@@ -126,12 +157,12 @@ public class MainController {
                 return "redirect:/";
             }
 
-        return "/book";
+        return "book";
     }
 
 
     @GetMapping("/borroweds")
-    public String borroweds (Model model, char time) {
+    public String borroweds (Model model, char time, String ad) {
 
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today.minusDays(30));
@@ -142,13 +173,12 @@ public class MainController {
             case '0': borroweds = borrowedRepository.findByDateBorrowingBeforeAndReturnedFalse(sqlDate);  break;
             default: borroweds = borrowedRepository.findAllByReturnedFalse(); break;
         }
-        TreeSet<String> categories;
-        categories=categories();
         List books =new ArrayList();
         addListBook (borroweds, books);
         model.addAttribute("categories", categories);
         model.addAttribute("books", books);
         model.addAttribute("time", time);
+        if (ad!=null && ad.equals("1")) model.addAttribute("ad", "1");
         return "books";
     }
 
@@ -286,14 +316,18 @@ public class MainController {
 
 
     @GetMapping("/bookcategory")
-        public String bookCategory (Model model, @RequestParam String cathegory){
-        List <Book> books;
-        books=bookRepository.findAllByCategory(cathegory);
-        TreeSet<String> categories;
-        categories=categories();
+        public String bookCategory (Model model, @RequestParam Long cathegory){
+
+        Optional<Category> categoryOptional=categoryRepository.findById(cathegory);
+        if (categoryOptional.isPresent()) {
+            Category cat=categoryOptional.get();
+            List <Book> books=bookRepository.findAllByCategory(cat);
+            model.addAttribute("books", books);
+        }
+
         model.addAttribute("cathegory", cathegory);
         model.addAttribute("categories", categories);
-        model.addAttribute("books", books);
+
         return "books";
         }
 
@@ -322,8 +356,6 @@ public class MainController {
             model.addAttribute("empty", true);
             return "noresult";
         }
-        TreeSet<String> categories;
-        categories=categories();
         model.addAttribute("categories", categories);
         model.addAttribute("books", books);
         return "books";
@@ -335,8 +367,6 @@ public class MainController {
         if (books.isEmpty()) {
             model.addAttribute("empty", true);
             return "noresult";}
-        TreeSet<String> categories;
-        categories=categories();
         model.addAttribute("categories", categories);
         model.addAttribute("books", books);
         return "books";
@@ -350,18 +380,9 @@ public class MainController {
         if (hist) borroweds = borrowedRepository.findAllByIdpAndReturnedFalse(idp);
           else borroweds=borrowedRepository.findAllByIdpAndReturnedTrue(idp);
           addListBook (borroweds, books);
-     return books;
+        return books;
     }
 
-    public TreeSet <String> categories(){
-
-        List <Book> books=bookRepository.findAll();
-        TreeSet<String> categories= new TreeSet<>();
-        for (Book elem:books){
-            categories.add(elem.getCategory());
-        }
-        return categories;
-    }
 
     public List <Book> searchBooks(String name, String searchBook){
 
@@ -427,5 +448,13 @@ public class MainController {
             books.add(book);
         }
     }
+    }
+
+    @GetMapping("/koduj")
+    @ResponseBody
+    public String koduj(@RequestParam String text) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encode = encoder.encode(text);
+        return encode;
     }
 }

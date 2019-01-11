@@ -27,15 +27,9 @@
 </head>
 <body>
 
-<!-- Navigation -->
+
 <!-- Navigation -->
 <span th:include="menu :: gora"></span>
-
-
-
-
-
-
 
 
 <!-- Page Content -->
@@ -54,33 +48,17 @@
 
             <!-- Image -->
             <figure class="margin-b-2">
-                <img class="img-responsive" src="/img/books1s.jpg" alt="">
+                <img class="img-responsive" src="/img/books1.jpg" alt="">
                 <figcaption class="margin-t-h"></figcaption>
             </figure>
+
+            <p class="lead">Panel administracyjny.</p>
+
             <hr>
 
-            <!--  książki -->
-            <span   th:if="${ad}==1"><a  style="display: inline; float: right" th:href="'/addperson'"> <img src="/img/plus.png" width="20px"/>  Dodaj nową osobę</a></span>
-            <h3>Osoby wypożyczające książki</h3>
-
-
-
-           <div class="well"  th:each="person: ${persons}">
-
-                <div class="media">
-                    <div class="media-body">
-                        <p style="display: inline; float: right"  th:if="${ad}==1"><a  th:href="'/editperson?idp='+${person.idp}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span> Edytuj dane osoby</button></a></p>
-                        <p style="display: inline; float: right; margin-right:30px;"><a th:href="'/person?idp='+${person.idp}+'&&hist='+${hist}"><button class="btn btn-sm btn-default">
-                            <span class="glyphicon glyphicon-th-list"></span> Zobacz wypożyczenia osoby</button></a></p>
-
-                        <h4 class="margin-t-0"><a th:href="'/person?idp='+${person.idp}+'&&hist='+${hist}"   th:text="${person.firstName} +' ' + ${person.lastName}"></a></h4>
-                        <p style="color: #f19f1f;" th:text="'Telefon: '+${person.phone}"></p>
-                    </div>
-                </div>
-            </div>
-
-
+            <!-- nowe książki -->
+            <h3>Witaj <span th:text="${user}"></span></h3>
+            <p>coś tam</p>
 
             <hr>
 
@@ -90,14 +68,7 @@
 
         <div class="col-sm-4">
             <!-- Search -->
-            <span th:include="menu :: searchPeople" ></span>
-
-            <!-- Panel -->
-            <span th:include="menu :: panel" ></span>
-
-            <span th:include="menu :: panel" ></span>
-
-
+            <span th:include="menu :: admin" ></span>
 
         </div>
     </div>

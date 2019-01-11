@@ -70,7 +70,7 @@
                         <p><ul th:each="book: ${books}" class="list-group">
                             <li class="list-group-item" >
                                 <p style="display: inline; float: left; margin-right:10px;"><img th:src="'/imgbook/k'+${book.idb}+'.jpg'" alt="" th:width="50px" th:height="65px"></p>
-                                <a th:if="${hist}" style="display: inline; float: right;"  th:href="'/returnbooks?idb='+${book.idb}">
+                                <a th:if="${hist} and  ${ad}==1" style="display: inline; float: right;"  th:href="'/returnbooks?idb='+${book.idb}">
                                    <button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Zwrot książki</button></a>
 
                                 <a th:href="'/book?idb='+${book.idb}"  th:text="'Autor: '+${book.author}"/></a><br>

@@ -53,7 +53,7 @@
             <hr>
 
             <!--  książki -->
-            <a  style="display: inline; float: right" th:href="'/addbook'"> <img src="/img/plus.png" width="20px"/>  Dodaj nową książkę</a>
+            <span th:if="${ad}==1"><a  style="display: inline; float: right" th:href="'/addbook'"> <img src="/img/plus.png" width="20px"/>  Dodaj nową książkę</a></span>
             <h3 th:unless="not ${cathegory==null}" th:text="'Lista wszystkich książek'"></h3>
             <h3 th:unless="${cathegory==null}" th:text="'Książki z działu: '+${cathegory}"></h3>
             <div class="well"  th:each="book: ${books}">
@@ -71,7 +71,7 @@
                         <p th:if="${book.description.length()<200}" th:text="${book.description}+'...'"></p>
                         <p style="display: inline; float: right; margin-left:15px;"><a th:href="'/book?idb='+${book.idb}"><button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-list-alt"></span> Szczegóły </button></a></p>
-                        <p th:if="${time}==null"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
+                        <p th:if="${time}==null and ${ad}==1"><a  th:href="'/editbook?idb='+${book.idb}"><button class="btn btn-sm btn-default">
                             <span class="glyphicon glyphicon-pencil"></span> Edycja danych</button></a></p>
                     </div>
                 </div>

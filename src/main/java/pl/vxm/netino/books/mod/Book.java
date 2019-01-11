@@ -11,7 +11,10 @@ public class Book {
 
  private String title;
  private String author;
- private String category;
+
+ @ManyToOne
+ private Category category;
+
  private String publisher;
  @Column(columnDefinition = "TEXT")
  private String description;
@@ -20,7 +23,7 @@ public class Book {
  public Book() {
  }
 
- public Book(String title, String author, String category, String publisher, String description, int publicationYear) {
+ public Book(String title, String author, Category category, String publisher, String description, int publicationYear) {
   this.title = title;
   this.author = author;
   this.category = category;
@@ -53,11 +56,11 @@ public class Book {
   this.author = author;
  }
 
- public String getCategory() {
+ public Category getCategory() {
   return category;
  }
 
- public void setCategory(String category) {
+ public void setCategory(Category category) {
   this.category = category;
  }
 
